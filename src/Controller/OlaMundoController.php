@@ -4,17 +4,28 @@
 namespace App\Controller;
 
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OlaMundoController
 {
     /**
-     * @Route ("/ola"), methods={POST}
+     * @Route ("/ola")
      */
-    public function olaMundoAction()
+    public function olaMundoAction(Request $request): Response
     {
-        echo 'Olá mundo!';
-        exit();
+        $pathInfo = $request->getPathInfo();
+        $parametro = $request->query->get('parametro'); //pegando um parametro unico
+        $query = $request->query->all();// pegando varios parametros
+        return new JsonResponse(
+            [
+                'mensagem'=>'Olá Mundo!',
+                'pathInfo'=>$pathInfo,
+                'parametro'=>$parametro,
+                'query'=>$query
+            ]);
     }
 
 }
